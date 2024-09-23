@@ -6,13 +6,11 @@ import { IChildrenData } from "../../../Interfaces/post";
 import { useEffect, useState } from "react";
 import { FaRegComments } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
-import {
-  MdKeyboardArrowRight,
-  MdKeyboardDoubleArrowLeft,
-} from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import { HiMiniMinus } from "react-icons/hi2";
+import { GoPlusCircle } from "react-icons/go";
 
 export default function Rising() {
   const [after, setAfter] = useState("null");
@@ -47,7 +45,13 @@ export default function Rising() {
               className="bg-white p-4 my-4 shadow cursor-pointer"
               key={child.data.id}
             >
-              <h2 className="mb-2 text-lg font-semibold">{child.data.title}</h2>
+              <div className="flex justify-start items-center my-2 border-b pb-3">
+                <span className="w-10 h-10 rounded-full bg-main text-white font-semibold flex items-center justify-center me-2">
+                  {child.data.author.slice(0, 1).toUpperCase()}
+                </span>{" "}
+                <h2>{child.data.author}</h2>
+              </div>
+              <h2 className="mb-2 mt-4 text-lg font-semibold">{child.data.title}</h2>
               {child.data.url_overridden_by_dest ? (
                 <div className="img">
                   <img
@@ -74,24 +78,24 @@ export default function Rising() {
             </div>
           ))}
           <div className="flex items-center justify-center col-span-4 my-4">
-            <div className="flex items-center justify-between text-gray-600  bg-gray-100 rounded-lg  w-1/2 mx-2">
+            <div className="flex items-center justify-between text-main  bg-gray-100 rounded-lg  w-1/2 mx-2">
               <button
                 onClick={() => setAfter(data.data.before)}
                 type="button"
-                className="inline-flex items-center justify-center h-8 px-1 w-6 bg-gray-100 rounded-s-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                className="inline-flex items-center justify-center h-10 px-1 w-8 bg-gray-100 rounded-s-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
               >
-                <MdKeyboardDoubleArrowLeft />
+                <HiMiniMinus className="text-main " />
                 <span className="sr-only">Previous page</span>
               </button>
-              <span className="flex-shrink-0 mx-1 text-sm font-medium space-x-0.5 rtl:space-x-reverse">
+              <span className="flex-shrink-0 mx-1 text-md font-medium space-x-0.5 rtl:space-x-reverse">
                 Pages
               </span>
               <button
                 onClick={() => setAfter(data.data.after)}
                 type="button"
-                className="inline-flex items-center justify-center h-8 px-1 w-6 bg-gray-100 rounded-e-lg dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-800"
+                className="inline-flex items-center justify-center h-10 px-1 w-8 bg-gray-100 rounded-e-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
               >
-                <MdKeyboardArrowRight />
+                <GoPlusCircle className="text-main " />
                 <span className="sr-only">Next page</span>
               </button>
             </div>

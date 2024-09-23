@@ -7,6 +7,7 @@ export interface IPost {
   score: number;
   url_overridden_by_dest: string;
   thumbnail: string;
+  author:string
 }
 
 export interface IChildrenData {

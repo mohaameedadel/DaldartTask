@@ -39,7 +39,13 @@ export default function Details() {
               className="bg-white p-4 my-4 shadow"
               key={data[0].data.children[0].data.id}
             >
-              <h2 className="mb-2 text-lg font-semibold">
+              <div className="flex justify-start items-center my-2 border-b pb-3">
+                  <span className="w-10 h-10 rounded-full bg-main text-white font-semibold flex items-center justify-center me-2">
+                    {data[0].data.children[0].data.author.slice(0, 1).toUpperCase()}
+                  </span>{" "}
+                  <h2>{data[0].data.children[0].data.author}</h2>
+                </div>
+              <h2 className="mb-2 mt-4 text-lg font-semibold">
                 {data[0].data.children[0].data.title}
               </h2>
               {data[0].data.children[0].data.url_overridden_by_dest ? (
@@ -82,7 +88,7 @@ export default function Details() {
               >
                 <div className="flex justify-start items-center my-2">
                   <span className="w-10 h-10 rounded-full bg-main text-white font-semibold flex items-center justify-center me-2">
-                    {child.data.author.slice(0, 1)}
+                    {child.data.author.slice(0, 1).toUpperCase()}
                   </span>{" "}
                   <h2>{child.data.author}</h2>
                 </div>
