@@ -10,18 +10,50 @@ import AOS from "aos";
 import { GoPlusCircle } from "react-icons/go";
 import { HiMiniMinus } from "react-icons/hi2";
 import { IChildrenData } from "../../Interfaces/post";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function Hot() {
   const [after, setAfter] = useState("null");
   const navigate = useNavigate();
 
+  // !! without fire base
+  // const { data, isPending } = useQuery({
+  //   queryKey: ["getHotPosts", `${after}`],
+  //   queryFn: async () => {
+  //     const res = await axios.get(
+  //       `https://www.reddit.com/r/Egypt/hot.json?limit=10&after=${after}`
+  //     );
+  //     return res.data;
+  //   },
+  // });
+
   const { data, isPending } = useQuery({
     queryKey: ["getHotPosts", `${after}`],
     queryFn: async () => {
-      const res = await axios.get(
-        `https://www.reddit.com/r/Egypt/hot.json?limit=10&after=${after}`
-      );
-      return res.data;
+      try {
+        const res = await axios.get(
+          `https://www.reddit.com/r/Egypt/hot.json?limit=10&after=${after}`
+        );
+
+        const postsCollection = collection(db, "redditHotPosts");
+
+        const promises = res.data.data.children.map((child: IChildrenData) =>
+          addDoc(postsCollection, {
+            author: child.data.author,
+            id: child.data.id,
+            title: child.data.title,
+            selftext: child.data.selftext,
+          })
+        );
+
+        await Promise.all(promises);
+
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching and storing posts: ", error);
+        throw new Error("Error fetching data");
+      }
     },
   });
 

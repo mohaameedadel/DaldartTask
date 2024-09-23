@@ -10,17 +10,50 @@ import AOS from "aos";
 import { HiMiniMinus } from "react-icons/hi2";
 import { GoPlusCircle } from "react-icons/go";
 import { IChildrenData } from "../../Interfaces/post";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 export default function New() {
   const [after, setAfter] = useState("null");
   const navigate = useNavigate();
+
+  // !! without fire base
+  // const { data, isPending } = useQuery({
+  //   queryKey: ["getNewPosts", `${after}`],
+  //   queryFn: async () => {
+  //     const res = await axios.get(
+  //       `https://www.reddit.com/r/Egypt/new.json?limit=10&after=${after}`
+  //     );
+  //     return res.data;
+  //   },
+  // });
+
   const { data, isPending } = useQuery({
     queryKey: ["getNewPosts", `${after}`],
     queryFn: async () => {
-      const res = await axios.get(
-        `https://www.reddit.com/r/Egypt/new.json?limit=10&after=${after}`
-      );
-      return res.data;
+      try {
+        const res = await axios.get(
+          `https://www.reddit.com/r/Egypt/new.json?limit=10&after=${after}`
+        );
+
+        const postsCollection = collection(db, "redditNewPosts");
+
+        const promises = res.data.data.children.map((child: IChildrenData) =>
+          addDoc(postsCollection, {
+            author: child.data.author,
+            id: child.data.id,
+            title: child.data.title,
+            selftext: child.data.selftext,
+          })
+        );
+
+        await Promise.all(promises);
+
+        return res.data;
+      } catch (error) {
+        console.error("Error fetching and storing posts: ", error);
+        throw new Error("Error fetching data");
+      }
     },
   });
 
@@ -45,12 +78,14 @@ export default function New() {
               key={child.data.id}
             >
               <div className="flex justify-start items-center my-2 border-b pb-3">
-                  <span className="w-10 h-10 rounded-full bg-main text-white font-semibold flex items-center justify-center me-2">
-                    {child.data.author.slice(0, 1).toUpperCase()}
-                  </span>{" "}
-                  <h2>{child.data.author}</h2>
-                </div>
-              <h2 className="mb-2 mt-4 text-lg font-semibold">{child.data.title}</h2>
+                <span className="w-10 h-10 rounded-full bg-main text-white font-semibold flex items-center justify-center me-2">
+                  {child.data.author.slice(0, 1).toUpperCase()}
+                </span>{" "}
+                <h2>{child.data.author}</h2>
+              </div>
+              <h2 className="mb-2 mt-4 text-lg font-semibold">
+                {child.data.title}
+              </h2>
               {child.data.url_overridden_by_dest ? (
                 <div className="img">
                   <img
