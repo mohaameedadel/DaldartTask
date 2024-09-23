@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
 import Loading from "../../Components/Loading/Loading";
-import { IChildrenData } from "../../../Interfaces/post";
 import { useEffect, useState } from "react";
 import { FaRegComments } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
@@ -11,6 +9,7 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import { HiMiniMinus } from "react-icons/hi2";
 import { GoPlusCircle } from "react-icons/go";
+import { IChildrenData } from "../../Interfaces/post";
 
 export default function New() {
   const [after, setAfter] = useState("null");
@@ -82,7 +81,7 @@ export default function New() {
               <button
                 onClick={() => setAfter(data.data.before)}
                 type="button"
-                className="inline-flex items-center justify-center h-10 px-1 w-8 bg-gray-100 rounded-s-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                className="inline-flex items-center justify-center h-12 px-1 w-8 bg-gray-100 rounded-s-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
               >
                 <HiMiniMinus className="text-main " />
                 <span className="sr-only">Previous page</span>
@@ -93,7 +92,7 @@ export default function New() {
               <button
                 onClick={() => setAfter(data.data.after)}
                 type="button"
-                className="inline-flex items-center justify-center h-10 px-1 w-8 bg-gray-100 rounded-e-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                className="inline-flex items-center justify-center h-12 px-1 w-8 bg-gray-100 rounded-e-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 "
               >
                 <GoPlusCircle className="text-main " />
                 <span className="sr-only">Next page</span>

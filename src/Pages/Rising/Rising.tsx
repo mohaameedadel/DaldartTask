@@ -1,26 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
 import Loading from "../../Components/Loading/Loading";
-import { IChildrenData } from "../../../Interfaces/post";
 import { useEffect, useState } from "react";
 import { FaRegComments } from "react-icons/fa";
 import { AiOutlineLike } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import "aos/dist/aos.css";
 import AOS from "aos";
-import { GoPlusCircle } from "react-icons/go";
 import { HiMiniMinus } from "react-icons/hi2";
+import { GoPlusCircle } from "react-icons/go";
+import { IChildrenData } from "../../Interfaces/post";
 
-export default function Hot() {
+export default function Rising() {
   const [after, setAfter] = useState("null");
   const navigate = useNavigate();
-
   const { data, isPending } = useQuery({
-    queryKey: ["getHotPosts", `${after}`],
+    queryKey: ["getRisingPosts", `${after}`],
     queryFn: async () => {
       const res = await axios.get(
-        `https://www.reddit.com/r/Egypt/hot.json?limit=10&after=${after}`
+        `https://www.reddit.com/r/Egypt/rising.json?limit=10&after=${after}`
       );
       return res.data;
     },
@@ -31,7 +29,6 @@ export default function Hot() {
       duration: 1000,
     });
   }, []);
-
   if (isPending) {
     return <Loading />;
   }
@@ -53,9 +50,7 @@ export default function Hot() {
                 </span>{" "}
                 <h2>{child.data.author}</h2>
               </div>
-              <h2 className="mb-2 mt-4 text-lg font-semibold">
-                {child.data.title}
-              </h2>
+              <h2 className="mb-2 mt-4 text-lg font-semibold">{child.data.title}</h2>
               {child.data.url_overridden_by_dest ? (
                 <div className="img">
                   <img
@@ -82,11 +77,11 @@ export default function Hot() {
             </div>
           ))}
           <div className="flex items-center justify-center col-span-4 my-4">
-            <div className="flex items-center justify-between  text-main  bg-gray-100 rounded-lg  w-1/2 mx-2">
+            <div className="flex items-center justify-between text-main  bg-gray-100 rounded-lg  w-1/2 mx-2">
               <button
                 onClick={() => setAfter(data.data.before)}
                 type="button"
-                className="inline-flex items-center justify-center h-10 px-1 w-8 bg-gray-100 rounded-s-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                className="inline-flex items-center justify-center h-12 px-1 w-8 bg-gray-100 rounded-s-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
               >
                 <HiMiniMinus className="text-main " />
                 <span className="sr-only">Previous page</span>
@@ -97,7 +92,7 @@ export default function Hot() {
               <button
                 onClick={() => setAfter(data.data.after)}
                 type="button"
-                className="inline-flex items-center justify-center h-10 px-1 w-8 bg-gray-100 rounded-e-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
+                className="inline-flex items-center justify-center h-12 px-1 w-8 bg-gray-100 rounded-e-lg  hover:bg-gray-200  focus:outline-none focus:ring-2 focus:ring-gray-200 "
               >
                 <GoPlusCircle className="text-main " />
                 <span className="sr-only">Next page</span>

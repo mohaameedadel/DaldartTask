@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Loading from "../../Components/Loading/Loading";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaRegComments } from "react-icons/fa";
-import { ICommentData } from "../../../Interfaces/comment";
 import { useEffect } from "react";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import { ICommentData } from "../../Interfaces/comment";
+import Loading from "../../Components/Loading/Loading";
 
 export default function Details() {
   const { id } = useParams();
@@ -84,7 +84,7 @@ export default function Details() {
               <div
                 data-aos="fade-up"
                 key={child.data.id}
-                className="bg-white my-4 p-4"
+                className="bg-white my-4 p-4 rounded-md"
               >
                 <div className="flex justify-start items-center my-2">
                   <span className="w-10 h-10 rounded-full bg-main text-white font-semibold flex items-center justify-center me-2">
